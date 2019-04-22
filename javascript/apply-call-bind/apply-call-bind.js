@@ -75,18 +75,4 @@
     }
     console.log(plus1(5));
  */
-const testObj = {
-  name: 'shadow',
-  sayWords(words) {
-    console.log(`${words}, ${this.name}`);
-  }
-};
-const testObj2 = {
-  name: 'tricker',
-  sayWords(words) {
-    testObj.sayWords.call(this, words);
-  }
-};
-testObj.sayWords('hi');
-testObj2.sayWords('hi');
 
