@@ -46,26 +46,26 @@
     const testObj2 = {
       name: 'tricker',
       sayWords(words) {
-        // testObj.sayWords(words);
+        // testObj.sayWords(words); 此处如果调用的话，调用的是testObj的方法，引用的是testObj，所以结果name会是shadow
         testObj.sayWords.call(this, words);
       }
     };
     testObj.sayWords('hi');   => hi, shadow
     testObj2.sayWords('hi');  => hi, tricker
-    * 此处testObj2 在声明时直接引用 objTest 的 sayWords 方法，
+    * 此处testObj2 在声明时直接引用 testObj 的 sayWords 方法，
     * testObj.sayWords.call(this, words), this将在方法执行时绑定到 testObj2 上
 
     3. func.bind(①thisValue, ②param_1, param_2, ..., param_n)
     * 返回一个调用func的新函数，并将 params参数按顺序作为func的参数传递
     ① thisValue
       当函数执行时 this指向的上下文， 当不需要绑定对象时，参数设置为null
-    ② param11, ..., param_n
+    ② param_1, ..., param_n
       接受单个参数
     function add(x, y) {
       return x + y;
     }
     const plus1 = add.bind(null, 1);
-    console.log(plus(5)); => 6
+    console.log(plus1(5)); => 6
     * 实际上段代码等同于
     function add(x, y) {
       return x + y;
@@ -74,5 +74,8 @@
       return add(1, num)
     }
     console.log(plus1(5));
+
+    * apply，call 除了传入参数的形式不一样，其功能都是在执行函数的时候，强制绑定函数运行的上下文（是调用）
+    * bind 是在绑定函数的上下文的同时，传入了对应的参数，并且返回了一个新的函数（是返回一个新的函数，这个函数需要手动去调用）
  */
 
