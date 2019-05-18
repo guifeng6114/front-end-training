@@ -68,7 +68,7 @@ new String('abc') === 'abc';    // => false
 ```js
 String(123);        // => '123'
 Number('123');      // => 123
-Boolean(1);         // => false
+Boolean(1);         // => true
 ```
 
 #### 原始值的包装和去包装
