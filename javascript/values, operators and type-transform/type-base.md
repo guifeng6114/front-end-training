@@ -1,5 +1,5 @@
 # 类型与类型转换  
-javascript 中有七种种类型，分别是:  
+javascript 中有七种类型，分别是:  
 
     undefined, null,
     string, number, boolean,
@@ -54,3 +54,42 @@ obj.foo           // => 123
 
 > 3. 用户可扩展  
 构造函数可以被看作是自定义的类型的补充方式
+
+## 原始值的包装对象
+布尔值，数字和字符串这三种原始值都有相应的构造函数： Boolean，Number，String（Symbol不能作为构造函数使用，因此不能使用new 操作符）。他们的**实例（称为包装对象）**包含原始值。这些构造器函数有两种方法：
+* 作为构造器函数，它们创建的对象和它们包装的原始值有很大的不同：
+```js
+// 包装的实例是对象
+typeof new String('abc');       // => 'object'
+typeof 'abc';                   // => 'string'
+new String('abc') === 'abc';    // => false
+```  
+* 作为函数，它们会将值转换为对象的原始值：
+```js
+String(123);        // => '123'
+Number('123');      // => 123
+Boolean(1);         // => false
+```
+
+#### 原始值的包装和去包装
+有一种使用包装对象的场景： 在你需要对一个原始值添加属性的时候，可以对这个原始值进行包装并且对这个包装后的对象增加属性，而当想取得原始值的时候，再将其去掉包装。  
+* 对象原始值进行包装：
+```js
+new Boolean(true);
+new String('123');
+new Number(123);
+```
+* 通过调用valueOf()方法来对实例进行去包装而得到原始值：
+```js
+new Boolean(false).valueOf();   // => false
+new Number(123).valueOf();      // => 123
+new String('abc').valueOf();    // => 'abc'
+```
+* 将构造函数当作函数使用来获取原始值时，只能正确的提取出数字和字符串，而布尔值不能：
+```js
+Number(new Number(123));        // => 123
+String(new String('abc'));      // => 'abc'
+Boolean(new Boolean(false));    // =>　true 将在布尔值章节讲解原因
+```
+
+
