@@ -89,7 +89,7 @@ new String('abc').valueOf();    // => 'abc'
 ```js
 Number(new Number(123));        // => 123
 String(new String('abc'));      // => 'abc'
-Boolean(new Boolean(false));    // =>　true 将在布尔值章节讲解原因
+Boolean(new Boolean(false));    // =>　true 因为new Boolean(false)生成的是一个对象（真值），所以经过Boolean转换会变成true
 ```
 
 
