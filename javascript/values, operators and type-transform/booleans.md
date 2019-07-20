@@ -39,8 +39,8 @@ String: ''
 ```
 >2. 短路   如果第一个运算数已经决定了结果，则不再求第二个运算数的值
 ```js
-    true && console.log('Hello')    // => true
-    false && console.log('Hello')   // => Hello undefined
+    true || console.log('Hello')    // => true
+    false || console.log('Hello')   // => Hello undefined
 ```
 >3. 逻辑与 `&&`  
 
