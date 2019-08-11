@@ -1,9 +1,9 @@
 # Web Components  
+
 ## 概念  
 Web Components是一个Web组件标准。  
 Web Components 用来定义自定义组件（使用现有元素来封装自己的元素），可以复用而不用担心代码冲突。
 
-[TOC]
 
 ## 组成
 1. Custom Elements
@@ -23,9 +23,9 @@ customElements.define(
     extendsOptions?: { extends: HTMLElement }
 );
 ```
->1 name：所创建的元素的名字，不能是单个的单词，且必须有短横线 `-`。  
-2 class：用于定于元素行为的类。  
-3 可选参数： 指定所创建元素继承自哪个任意的内置的元素。  
+>1\. name：所创建的元素的名字，不能是单个的单词，且必须有短横线 `-`。  
+2\. class：用于定于元素行为的类。  
+3\. 可选参数： 指定所创建元素继承自哪个任意的内置的元素。  
 
 + 返回自定义元素的构造函数
 ```ts
@@ -38,7 +38,7 @@ customElements.define(
 ```ts
     customElements.whenDefined(name);
 ```
->1 name：自定义元素的名称。  
+>1\. name：自定义元素的名称。  
 返回：当自定义元素被定义时，一个Promise 返回 `{jsxref("undefined")}` 。如果自定义元素已经被定义，则 `resolve` 立即执行。如果提供的 name 不是一个有效的 自定义元素名字，promise 的 `reject` 回调会接收到一个 `SyntaxError`.
 
 + 两种 `custom elements`
@@ -65,13 +65,13 @@ Shadow DOM允许将隐藏的DOM树添加到常规的DOM树中——它以shadow 
 ![shadow DOM](./images/shadow-dom.png)
 ![shadow DOM HTML](./images/shadow-dom2.png)
 
->1 shadow host  
+>1\. shadow host  
 一个常规的 DOM 节点， 作为宿主，Shadow DOM 会被添加到这个节点上。  
-2 shadow tree  
+2\. shadow tree  
 Shadow DOM 内部的 DOM 树。  
-3 shadow boundary  
+3\. shadow boundary  
 shadow DOM 的作用范围，结束后是常规 DOM 开始的地方。  
-4 shadow root  
+4\. shadow root  
 shadow tree 的 根节点
 
 你可以像常规 DOM 一样操作 Shadow DOM，添加子节点，添加样式，设置属性等等，但他永远不会影响到外部的元素，这也为封装提供了便利。
@@ -88,16 +88,4 @@ shadow tree 的 根节点
 ```
 > closed：如果你将 `mode` 设置为 `closed`， 则代表你不能使用 `Element.shadowRoot` 获得 shadow DOM 了，他将返回 `null`。（当然你可以使用其他的方法来获取，比如在定义类的时候，留一个暴露的属性）。  
 
-```flow
-st=>start: Start:>https://www.zybuluo.com
-io=>inputoutput: verification
-op=>operation: Your Operation
-cond=>condition: Yes or No?
-sub=>subroutine: Your Subroutine
-e=>end
-
-st->io->op->cond
-cond(yes)->e
-cond(no)->sub->io
-```
 
