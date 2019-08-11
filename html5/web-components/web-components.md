@@ -46,6 +46,14 @@ customElements.define(
 2. Customized built-in elements
 继承自基本的 `HTML` 元素， 创建时必须指定继承自元素。使用时， 需要先写出基本的元素标签，并通过 `is` 属性指定 `custom element` 的名称。 如： `<p is="simp-sample"></p>` 或者 `document.createElement('p', { is: 'simp-sample' })`。
 
++ 生命周期函数  
+>+ connectedCallback： 当 custom element 首次被插入文档时调用。
+>+ disconnectedCallback： 当 custom element 在文档中删除时调用。
+>+ adoptedCallback： 当 custom element 被移动到新的文档时，被调用。
+>+ attributeChangedCallback： 当 custom element 增加，删除，修改自身属性时， 被调用。  
+
+[自定义组件的生命周期详情MDN](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components/Using_custom_elements#%E4%BD%BF%E7%94%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0)
+
 示例： 因为创建自定义元素要使用 `shadow DOM`， 所以放在一起实现。
 
 ### 2. Shadow DOM
@@ -54,3 +62,28 @@ Web components的一个重要特性是封装——可以将html标签结构、cs
 Shadow DOM允许将隐藏的DOM树添加到常规的DOM树中——它以shadow root为起始根节点，在这个根节点的下方，可以是任意元素，和普通的DOM元素一样。
 
 ![shadow DOM](./images/shadow-dom.png)
+![shadow DOM HTML](./images/shadow-dom2.png)
+
+>1 shadow host  
+一个常规的 DOM 节点， 作为宿主，Shadow DOM 会被添加到这个节点上。  
+2 shadow tree  
+Shadow DOM 内部的 DOM 树。  
+3 shadow boundary  
+shadow DOM 的作用范围，结束后是常规 DOM 开始的地方。  
+4 shadow root  
+shadow tree 的 根节点
+
+你可以像常规 DOM 一样操作 Shadow DOM，添加子节点，添加样式，设置属性等等，但他永远不会影响到外部的元素，这也为封装提供了便利。
+
++ shadow DOM 的使用
+```ts
+    let shadow = ElementRef.attachShadow({ mode: 'open' });
+    let shadow = ElementRef.attachShadow({ mode: 'closed' });
+```
+
+> open： 表示你可以通过页面中的 `javascript` 方法来获取 Shadow DOM，例如使用 `Element.shadowRoot` 属性：
+```ts
+    let shadowDOM = element.shadowRoot
+```
+> closed：如果你将 `mode` 设置为 `closed`， 则代表你不能使用 `Element.shadowRoot` 获得 shadow DOM 了，他将返回 `null`。（当然你可以使用其他的方法来获取，比如在定义类的时候，留一个暴露的属性）。
+
