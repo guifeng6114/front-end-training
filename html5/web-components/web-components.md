@@ -3,14 +3,12 @@
 Web Components是一个Web组件标准。  
 Web Components 用来定义自定义组件（使用现有元素来封装自己的元素），可以复用而不用担心代码冲突。
 
----
 
 ## 组成
 1. Custom Elements
 2. Shadow DOM
 3. HTML Templates
 4. HTML Imports  
----
 
 ## 详解
 1. `Custom Elements`  
