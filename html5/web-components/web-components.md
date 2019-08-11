@@ -49,4 +49,8 @@ customElements.define(
 示例： 因为创建自定义元素要使用 `shadow DOM`， 所以放在一起实现。
 
 ### 2. Shadow DOM
+Web components的一个重要特性是封装——可以将html标签结构、css样式和行为隐藏起来，并从页面上的其他代码中分离开来，这样不同的功能不会混在一起，代码看起来也会更加干净整洁。其中，Shadow DOM接口是关键所在，它可以将一个隐藏的、独立的DOM添加到一个元素上。
 
+Shadow DOM允许将隐藏的DOM树添加到常规的DOM树中——它以shadow root为起始根节点，在这个根节点的下方，可以是任意元素，和普通的DOM元素一样。
+
+![shadow DOM](./images/shadow-dom.png)
