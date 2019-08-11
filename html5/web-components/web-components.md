@@ -3,6 +3,7 @@
 Web Components是一个Web组件标准。  
 Web Components 用来定义自定义组件（使用现有元素来封装自己的元素），可以复用而不用担心代码冲突。
 
+[TOC]
 
 ## 组成
 1. Custom Elements
@@ -85,5 +86,18 @@ shadow tree 的 根节点
 ```ts
     let shadowDOM = element.shadowRoot
 ```
-> closed：如果你将 `mode` 设置为 `closed`， 则代表你不能使用 `Element.shadowRoot` 获得 shadow DOM 了，他将返回 `null`。（当然你可以使用其他的方法来获取，比如在定义类的时候，留一个暴露的属性）。
+> closed：如果你将 `mode` 设置为 `closed`， 则代表你不能使用 `Element.shadowRoot` 获得 shadow DOM 了，他将返回 `null`。（当然你可以使用其他的方法来获取，比如在定义类的时候，留一个暴露的属性）。  
+
+```flow
+st=>start: Start:>https://www.zybuluo.com
+io=>inputoutput: verification
+op=>operation: Your Operation
+cond=>condition: Yes or No?
+sub=>subroutine: Your Subroutine
+e=>end
+
+st->io->op->cond
+cond(yes)->e
+cond(no)->sub->io
+```
 
