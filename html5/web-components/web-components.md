@@ -11,7 +11,7 @@ Web Components 用来定义自定义组件（使用现有元素来封装自己�
 4. HTML Imports  
 
 ## 详解
-1. `Custom Elements`  
+### 1. Custom Elements  
 一组 `Javascript API` ，允许定义 `custom Elements` 及其行为。  
 
 + 注册
@@ -48,5 +48,5 @@ customElements.define(
 
 示例： 因为创建自定义元素要使用 `shadow DOM`， 所以放在一起实现。
 
-2. Shadow DOM
+### 2. Shadow DOM
 
