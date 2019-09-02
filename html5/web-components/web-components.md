@@ -86,6 +86,19 @@ shadow tree 的 根节点
 ```ts
     let shadowDOM = element.shadowRoot
 ```
-> closed：如果你将 `mode` 设置为 `closed`， 则代表你不能使用 `Element.shadowRoot` 获得 shadow DOM 了，他将返回 `null`。（当然你可以使用其他的方法来获取，比如在定义类的时候，留一个暴露的属性）。  
+> closed：如果你将 `mode` 设置为 `closed`， 则代表你不能使用 `Element.shadowRoot` 获得 shadow DOM 了，他将返回 `null`。（当然你可以使用其他的方法来获取，比如在定义类的时候，留一个暴露的属性）。 
+
+通常情况下，shadow DOM 配合 Custom Element 一起使用。对于 Shadow DOM 中的 DOM， 处理方式跟常规的 DOM 一样。
+
+### Custom Element 与 Shadow DOM 的综合示例  
+完成一个组件（POP Info -- Autonomous custom elements ） 
+```ts
+    class PopInfo extends HTMLElement {
+        constructor() {
+            super();
+        }
+    }
+```
+
 
 
