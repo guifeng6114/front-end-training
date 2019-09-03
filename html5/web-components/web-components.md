@@ -91,14 +91,121 @@ shadow tree 的 根节点
 通常情况下，shadow DOM 配合 Custom Element 一起使用。对于 Shadow DOM 中的 DOM， 处理方式跟常规的 DOM 一样。
 
 ### Custom Element 与 Shadow DOM 的综合示例  
-完成一个组件（POP Info -- Autonomous custom elements ） 
+完成一个自定义组件（PopUp Info -- Autonomous custom elements ） 
+此组件加入了生命周期
 ```ts
     class PopInfo extends HTMLElement {
+
+        // 此静态方法用于监听 组件的属性的变化
+        static get observedAttributes() {
+            // 数组中添加你想要监听的属性名称
+            // 此例中，监听的是 img 和 text 属性
+            return  ['img', 'text'];
+        }
+
         constructor() {
             super();
+
+            this.shadow = this.attachShadow({
+                mode: 'open'
+            });
+
+            const wrapper = document.createElement('span');
+            wrapper.classList.add('wrapper');
+
+            const info = document.createElement('span');
+            info.classList.add('info');
+            info.textContent = this.getAttribute('text');
+
+            const icon = document.createElement('span');
+            icon.classList.add('icon');
+            icon.setAttribute('tabindex', 0);
+            const img = document.createElement('img');
+            img.src = this.hasAttribute('img')
+                        ? this.getAttribute('img')
+                        : './images/default.png';
+            icon.appendChild(img);
+
+            const style = document.createElement('style');
+            style.textContent = `
+                .wrapper {
+                    position: relative;
+                }
+                .info {
+                    font-size: 0.8rem;
+                    width: 200px;
+                    display: inline-block;
+                    border: 1px solid black;
+                    padding: 10px;
+                    background: white;
+                    border-radius: 10px;
+                    opacity: 0;
+                    transition: 0.6s all;
+                    position: absolute;
+                    bottom: 20px;
+                    left: 10px;
+                    z-index: 3;
+                }
+                img {
+                    width: 1.2rem;
+                }
+                .icon:hover + .info, .icon:focus + .info {
+                    opacity: 1;
+                }
+            `;
+
+            this.shadow.append(style, wrapper);
+            wrapper.append(icon, info);
+        }
+
+        // 被插入文档时触发
+        connectedCallback() {
+            console.log('connected!');
+        }
+
+        // 被从文档删除时触发
+        disconnectedCallback() {
+            console.log('disconnected!');
+        }
+
+        // 每次设定属性时触发，包括第一次第一次设置属性，并且第一次 oldValue 的值是 null
+        attributeChangedCallback(name, oldValue, newValue) {
+            console.log(`propertyName: ${name}`);
+            console.log(`oldValue: ${oldValue}`);
+            console.log(`newValue: ${newValue}`);
+            if (name === 'img') {
+                this.shadow.querySelector('img').src = newValue;
+            } else if (name === 'text') {
+                this.shadow.querySelector('.info').textContent = newValue;
+            }
         }
     }
 ```
 
+完成一个继承组件 Customized built-in elements（ExpandingList -- Autonomous custom elements ）
+```ts
+    class ExpandingList extends HTMLUListElement {
+        constructor() {
+            super();
+
+            // ...页面的逻辑，详细请看 js 文件
+        }
+    }
+
+    // 跟自定义元素的区别所在， 他需要声明要继承自哪个元素
+    customElements.define('expanding-list', ExpandingList, {
+        extends: 'ul'
+    });
+```
+使用时，将定义的名称放在 `is` 属性中
+```html
+    <ul is="expanding-list">
+       <!-- 这里放入内部的元素 --> 
+    </ul>
+```
+> 注意： 不管是 **自定义的元素** 或者是 **继承元素**，他们都是继承了 HTML 的类，所以在 构造器函数 `(constructor)` 中，必须使用 `super()` 来继承父类的方法，不然会报错。  
+
+### 3. HTML Templates
+(To be continued ...)
 
 

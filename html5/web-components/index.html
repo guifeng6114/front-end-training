@@ -1,16 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Web Components</title>
+    <style>
+        ul {
+            list-style-type: none;
+        }
+
+        li::before {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.25rem;
+            content: "";
+        }
+
+        .open::before,
+        .closed::before {
+            background-size: 1rem 1rem;
+            position: relative;
+            top: 0.25rem;
+            opacity: 0.3;
+        }
+
+        .closed .closed::before,
+        .closed .open::before {
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
     <div class="root">
-        <popup-info img="./images/alt.png" text="just-test"></popup-info>
+        <popup-info img="./images/alt.png" text="just-test">
+        </popup-info>
+
+        <ul is="expanding-list">
+            <li>UK
+                <ul>
+                    <li>Yorkshire
+                        <ul>
+                            <li>Leeds
+                                <ul>
+                                    <li>Train station</li>
+                                    <li>Town hall</li>
+                                    <li>Headrow</li>
+                                </ul>
+                            </li>
+                            <li>Bradford</li>
+                            <li>Hull</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>USA
+                <ul>
+                    <li>California
+                        <ul>
+                            <li>Los Angeles</li>
+                            <li>San Francisco</li>
+                            <li>Berkeley</li>
+                        </ul>
+                    </li>
+                    <li>Nevada</li>
+                    <li>Oregon</li>
+                </ul>
+            </li>
+        </ul>
+        <button class="add">add</button>
+        <button class="changeImg">change Image</button>
+        <input class="text" type="text" placeholder="input your text">
+        <button class="changeText">change Text</button>
+        <button class="delete">delete</button>
     </div>
 
     <script src="./components.js"></script>
+    <script>
+        const addButton = document.querySelector('.add');
+        const changeImg = document.querySelector('.changeImg');
+        const changeText = document.querySelector('.changeText');
+        const text = document.querySelector('.text');
+        const deleteButton = document.querySelector('.delete');
+        const popupInfo = document.querySelector('popup-info');
+
+        popupInfo.addEventListener('click', (e) => {
+            console.log(e);
+            console.log('PopUpInfo clicked!');
+        });
+
+        addButton.addEventListener('click', (e) => {
+            const newPopInfo = document.createElement('popup-info');
+            newPopInfo.setAttribute('text', 'new one');
+            newPopInfo.setAttribute('img', './images/default.png');
+            document.querySelector('.root').appendChild(newPopInfo);
+        });
+
+        changeImg.addEventListener('click', e => {
+            popupInfo.getAttribute('img') === './images/alt.png'
+                ? popupInfo.setAttribute('img', './images/default.png')
+                : popupInfo.setAttribute('img', './images/alt.png');
+        });
+
+        changeText.addEventListener('click', e => {
+            popupInfo.setAttribute('text', text.value ? text.value : popupInfo.getAttribute('text'));
+        });
+
+        deleteButton.addEventListener('click', (e) => {
+            document.querySelector('.root').removeChild(popupInfo);
+        });
+    </script>
 </body>
+
 </html>
