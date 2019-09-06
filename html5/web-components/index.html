@@ -36,6 +36,7 @@
 
 <body>
     <div class="root">
+        <!-- custom elements & shadow DOM -->
         <popup-info img="./images/alt.png" text="just-test">
         </popup-info>
 
@@ -76,42 +77,98 @@
         <input class="text" type="text" placeholder="input your text">
         <button class="changeText">change Text</button>
         <button class="delete">delete</button>
+
+
+        <!-- template & slot -->
+        <my-paragraph></my-paragraph>
+        <template id="my-paragraph">
+            <style>
+                p {
+                    color: white;
+                    background-color: #666;
+                    padding: 5px;
+                }
+            </style>
+            <p>This is my paragraph!</p>
+        </template>
+
+        <template id="my-test">
+            <style>
+                p {
+                    color: white;
+                    background-color: #666;
+                    padding: 5px;
+                }
+            </style>
+            <p>This just a test!</p>
+        </template>
+        <p>11121212</p>
+
+        <template id="test-slot">
+            <slot name="test-slot">1234</slot>
+        </template>
+
+        <test-slot>
+            <p slot="test-slot">I just want to test the slot!</p>
+        </test-slot>
+
+        <template id="all-slot">
+            <slot></slot>
+        </template>
+
+        <test-slot>
+            <p>Here is all sentences</p>
+            <p>Here is all sentences</p>
+            <p>Here is all sentences</p>
+            <p>Here is all sentences</p>
+            <p>Here is all sentences</p>
+        </test-slot>
+
+
     </div>
 
     <script src="./components.js"></script>
     <script>
-        const addButton = document.querySelector('.add');
-        const changeImg = document.querySelector('.changeImg');
-        const changeText = document.querySelector('.changeText');
-        const text = document.querySelector('.text');
-        const deleteButton = document.querySelector('.delete');
-        const popupInfo = document.querySelector('popup-info');
+        const init = () => {
+            const addButton = document.querySelector('.add');
+            const changeImg = document.querySelector('.changeImg');
+            const changeText = document.querySelector('.changeText');
+            const text = document.querySelector('.text');
+            const deleteButton = document.querySelector('.delete');
+            const popupInfo = document.querySelector('popup-info');
+            const myTest = document.getElementById('my-test');
 
-        popupInfo.addEventListener('click', (e) => {
-            console.log(e);
-            console.log('PopUpInfo clicked!');
-        });
+            popupInfo.addEventListener('click', (e) => {
+                console.log(e);
+                console.log('PopUpInfo clicked!');
+            });
 
-        addButton.addEventListener('click', (e) => {
-            const newPopInfo = document.createElement('popup-info');
-            newPopInfo.setAttribute('text', 'new one');
-            newPopInfo.setAttribute('img', './images/default.png');
-            document.querySelector('.root').appendChild(newPopInfo);
-        });
+            addButton.addEventListener('click', (e) => {
+                const newPopInfo = document.createElement('popup-info');
+                newPopInfo.setAttribute('text', 'new one');
+                newPopInfo.setAttribute('img', './images/default.png');
+                document.querySelector('.root').appendChild(newPopInfo);
+            });
 
-        changeImg.addEventListener('click', e => {
-            popupInfo.getAttribute('img') === './images/alt.png'
-                ? popupInfo.setAttribute('img', './images/default.png')
-                : popupInfo.setAttribute('img', './images/alt.png');
-        });
+            changeImg.addEventListener('click', e => {
+                popupInfo.getAttribute('img') === './images/alt.png' ?
+                    popupInfo.setAttribute('img', './images/default.png') :
+                    popupInfo.setAttribute('img', './images/alt.png');
+            });
 
-        changeText.addEventListener('click', e => {
-            popupInfo.setAttribute('text', text.value ? text.value : popupInfo.getAttribute('text'));
-        });
+            changeText.addEventListener('click', e => {
+                popupInfo.setAttribute('text', text.value ? text.value : popupInfo.getAttribute('text'));
+            });
 
-        deleteButton.addEventListener('click', (e) => {
-            document.querySelector('.root').removeChild(popupInfo);
-        });
+            deleteButton.addEventListener('click', (e) => {
+                document.querySelector('.root').removeChild(popupInfo);
+            });
+
+            const templateContent = myTest.content;
+            document.body.appendChild(templateContent.cloneNode(true));
+        };
+
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 

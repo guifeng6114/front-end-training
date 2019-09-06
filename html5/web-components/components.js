@@ -114,9 +114,9 @@ class ExpandingList extends HTMLUListElement {
             });
 
             function showul(e) {
-        
+
                 const nextul = e.target.nextElementSibling;
-        
+
                 if (nextul.style.display == 'block') {
                     nextul.style.display = 'none';
                     nextul.parentNode.setAttribute('class', 'closed');
@@ -130,10 +130,51 @@ class ExpandingList extends HTMLUListElement {
     }
 }
 
-// define the elements name and use the class we have defined
-customElements.define('popup-info', PopUpInfo);
 
-// use the built-in elements need to point to the extended element
-customElements.define('expanding-list', ExpandingList, {
-    extends: 'ul'
-});
+const initElements = () => {
+    // define the elements name and use the class we have defined
+    customElements.define('popup-info', PopUpInfo);
+
+    // use the built-in elements need to point to the extended element
+    customElements.define('expanding-list', ExpandingList, {
+        extends: 'ul'
+    });
+
+    // use template with web components
+    customElements.define(
+        'my-paragraph',
+        class MyParagraph extends HTMLElement {
+            constructor() {
+                super();
+
+                const templateContent = document.getElementById('my-paragraph').content;
+
+                this.shadow = this.attachShadow({
+                        mode: 'open'
+                    })
+                    .appendChild(templateContent.cloneNode(true));
+            }
+        }
+    )
+
+    customElements.define(
+        'test-slot',
+        class TestSlot extends HTMLElement {
+
+            constructor() {
+                super();
+
+                this.shadow = this.attachShadow({
+                        mode: 'open'
+                    })
+                    .appendChild(
+                        document.querySelectorAll('test-slot').content.cloneNode(true)
+                    );
+            }
+
+        }
+    );
+
+};
+
+document.addEventListener('DOMContentLoaded', initElements);
