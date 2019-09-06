@@ -108,7 +108,7 @@
             <slot name="test-slot">1234</slot>
         </template>
 
-        <test-slot>
+        <test-slot template="test-slot">
             <p slot="test-slot">I just want to test the slot!</p>
         </test-slot>
 
@@ -116,7 +116,7 @@
             <slot></slot>
         </template>
 
-        <test-slot>
+        <test-slot template="all-slot">
             <p>Here is all sentences</p>
             <p>Here is all sentences</p>
             <p>Here is all sentences</p>

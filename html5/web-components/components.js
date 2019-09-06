@@ -164,11 +164,13 @@ const initElements = () => {
             constructor() {
                 super();
 
+                console.log(this.getAttribute('template'));
+
                 this.shadow = this.attachShadow({
                         mode: 'open'
                     })
                     .appendChild(
-                        document.querySelectorAll('test-slot').content.cloneNode(true)
+                        document.getElementById(this.getAttribute('template')).content.cloneNode(true)
                     );
             }
 
