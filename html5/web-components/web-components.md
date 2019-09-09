@@ -292,7 +292,9 @@ shadow tree 的 根节点
 
 `slot` 槽 相当于文档中的一种占位符标记，用 `name` 属性作为标记名。  
 如果在外侧有元素使用了相同的标记，那么这个槽在渲染时，将会被带有相同标记的元素所替换。如下例：  
-> 根据 [MDN_slot](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components/Using_templates_and_slots) 手册的说法，`slot` 不仅仅可以放在 `template` 中，放在其他元素中也是可以的， 但是经实验似乎只有在 `template` 中才好用，可能理解的有问题，有待验证。
+
+> 根据 [MDN_slot](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components/Using_templates_and_slots) 手册的说法， `slot` 不仅仅可以放在 `template` 中，放在其他元素中也是可以的， 但是经实验似乎只有在 `template` 中才好用，可能理解的有问题，有待验证。
+
 ``` html
     <template id="test-slot">
         <slot name="test-slot">1234</slot>
@@ -302,28 +304,118 @@ shadow tree 的 根节点
         <p slot="test-slot">I just want to test the slot!</p>
     </test-slot>
 ```
-```ts
+
+``` ts
     customElements.define(
         'test-slot',
         class TestSlot extends HTMLElement {
-
+    
             constructor() {
                 super();
-
+    
                 this.shadow = this.attachShadow({ 
                     mode: 'open' 
                 }).appendChild(
                     document.getElementById('test-slot').content.cloneNode(true)
                 );
             }
-
+    
         }
     );
 ```
-如上例所示（效果请运行 `index.html` 文件），发现 `template` 中的 `slot` 被 `test-slot` 中的 `p` 标签替换了。有了 `slot`， 等同于可以在自定义的组件中 插入子节点， 有点类似于 `react` 组件形式。
+
+如上例所示（效果请运行 `index.html` 文件），发现 `template` 中的 `slot` 被 `test-slot` 中的 `p` 标签替换了。有了 `slot` ， 等同于可以在自定义的组件中 插入子节点， 有点类似于 `react` 组件形式。
 
 > 另外发现一点， 如果 `slot` 不写 `name` 属性，会将所有自定义组件中的子节点替换到 `slot` 所在的位置。 如：
-```ts
+
+``` ts
+    customElements.define(
+        'test-slot',
+        class TestSlot extends HTMLElement {
     
+            constructor() {
+                super();
+    
+                console.log(this.getAttribute('template'));
+    
+                this.shadow = this.attachShadow({
+                        mode: 'open'
+                    })
+                    .appendChild(
+                        document.getElementById(this.getAttribute('template')).content.cloneNode(true)
+                    );
+            }
+    
+        }
+    );
 ```
 
+``` html
+<template id="all-slot">
+    <slot></slot>
+</template>
+
+<test-slot template="all-slot">
+    <p>Here is all sentences</p>
+    <p>Here is all sentences</p>
+    <p>Here is all sentences</p>
+    <p>Here is all sentences</p>
+    <p>Here is all sentences</p>
+</test-slot>
+```
+
+此处添加了一个 `template` 属性， 用来指定绑定的是哪一个模板（详细请看 `js` 文件）。  
+执行后会发现，标签 `test-slot` 中的所有 `p` 标签都被 `slot` 替换了。
+
+> 另外一点，对于写在模板 `template` 中的样式，只对模板中的元素有效（前面提到过）。 然而对于写在 自定义组件 `Custom Element` 中的样式，对于全局都有效。例：
+
+``` html
+    <template id="style-diff">
+        <style>
+            p {
+                color: white;
+                background-color: #a8a8a8;
+                padding: 5px;
+            }
+        </style>
+        <p>just force this p</p>
+        <slot></slot>
+    </template>
+
+    <style-diff template="style-diff">
+        <style>
+            p {
+                color: white;
+                background-color: #666;
+                padding: 5px;
+            }
+        </style>
+        <p>I just want to test the slot!</p>
+        <p>I want to test</p>
+        <span style="color: red;">Another slot!</span>
+    </style-diff>
+
+    <p>just force this p another</p>
+```
+
+运行后，会发现， `template` 中的 `p` 应用了自己的样式不受外界的影响。  
+而写在自定义组件 `Custom Element` 中的 `p` ， 应用了自己定义的样式，不仅如此，还将全局中的 `p` 的样式都覆盖了。如果想自定义组件的样式只对自己有效，则只需要在样式前加上自定义组件的名称，如：
+
+``` html
+<style-diff template="style-diff">
+    <style>
+        style-diff p {
+            color: white;
+            background-color: #444;
+            padding: 5px;
+        }
+    </style>
+    <p>I just want to test the slot!</p>
+    <p>I want to test</p>
+    <span style="color: red;">Another slot!</span>
+</style-diff>
+```
+
++ HTML Imports  
+查阅 MDN 文档发现此功能可能会被删除，查阅资料中  
+未完待续。。。

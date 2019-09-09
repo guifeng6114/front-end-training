@@ -177,6 +177,44 @@ const initElements = () => {
         }
     );
 
+    customElements.define(
+        'style-diff',
+        class TestSlot extends HTMLElement {
+
+            constructor() {
+                super();
+
+                console.log(this.getAttribute('template'));
+
+                this.shadow = this.attachShadow({
+                        mode: 'open'
+                    })
+                    .appendChild(
+                        document.getElementById(this.getAttribute('template')).content.cloneNode(true)
+                    );
+            }
+
+        }
+    );
+
+    // final comprehension
+    customElements.define(
+        'element-details',
+        class extends HTMLElement {
+            constructor() {
+                super();
+
+                console.log(this.getAttribute('template'));
+                
+                const template = document.getElementById(this.getAttribute('template')).content;
+
+                this.shadow = this.attachShadow({
+                    mode: 'open'
+                }).appendChild(template.cloneNode(true));
+            }
+        }
+    )
+
 };
 
 document.addEventListener('DOMContentLoaded', initElements);
