@@ -83,7 +83,6 @@ Shadow DOM允许将隐藏的DOM树添加到常规的DOM树中——它以shadow 
 ![shadow DOM HTML](./images/shadow-dom2.png)
 
 > 1\.shadow host  
-
 一个常规的 DOM 节点， 作为宿主，Shadow DOM 会被添加到这个节点上。  
 2\.shadow tree  
 Shadow DOM 内部的 DOM 树。  
